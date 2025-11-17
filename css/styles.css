@@ -680,6 +680,30 @@ textarea {
   .search input { min-width: 180px; }
 }
 
+/* Mobile (small) friendly adjustments */
+@media (max-width: 600px) {
+  body { padding: 12px; }
+  .app { width: 100%; max-width: 100%; padding: 12px; border-radius: 12px; }
+  .logo { width: 48px; height: 48px; font-size: 16px; }
+  .brand h1 { font-size: 16px; }
+  .controls .btn, .btn { padding: 10px 12px; font-size: 15px; }
+  .icon-btn { padding: 8px; }
+  .search input { min-width: 120px; }
+  .modal { width: 95%; max-width: 95%; padding: 12px; border-radius: 12px; }
+  .modal-backdrop { align-items: flex-end; padding-bottom: 12px; }
+  .board { grid-template-columns: 1fr; }
+  .column { min-height: 200px; }
+  .task { padding: 12px; font-size: 15px; }
+  .list-item { grid-template-columns: auto 1fr auto; padding: 12px; }
+  .calendar-day { aspect-ratio: auto; min-height: 72px; }
+  #calendarGrid { gap: 6px; }
+  .notifications-panel { width: calc(100% - 24px); right: 12px; left: 12px; top: 70px; }
+  .theme-selector, .theme-option { min-width: 90%; }
+  .color-option { width: 36px; height: 36px; }
+  .task-actions .icon-btn { padding: 8px; }
+  .btn.primary { padding-left: 14px; padding-right: 14px; }
+}
+
 /* ========= Helpers ========= */
 .muted { color: var(--muted); }
 .flex { display: flex; align-items: center; }
