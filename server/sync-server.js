@@ -1,6 +1,8 @@
 // Simple Express sync server using Supabase service_role key
 // Usage: set SUPABASE_URL and SUPABASE_SERVICE_ROLE environment variables
 // Install deps: npm install express body-parser @supabase/supabase-js
+require('dotenv').config();
+
 
 const express = require('express');
 const bodyParser = require('body-parser');
