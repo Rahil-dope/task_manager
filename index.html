@@ -1,0 +1,301 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>NovaTasks — Advanced Task Manager</title>
+  <meta name="description" content="Advanced task manager with calendar view, recurring tasks, notifications, themes, and sync capabilities" />
+  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="stylesheet" href="css/themes.css" />
+</head>
+<body>
+  <div class="app" role="application" aria-label="NovaTasks Advanced Task Manager">
+    
+    <!-- Header -->
+    <header>
+      <div class="brand">
+        <div class="logo">NT</div>
+        <div>
+          <h1>NovaTasks</h1>
+          <p>Advanced Task Manager — Calendar • Recurring • Notifications • Sync</p>
+        </div>
+      </div>
+
+      <div class="controls">
+        <div class="search">
+          <input id="searchInput" placeholder="Search tasks, tags or descriptions..." />
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+            <path stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35"/>
+            <circle cx="11" cy="11" r="6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+
+        <button class="btn" id="themeBtn" title="Change theme">🎨</button>
+        <button class="btn" id="notificationsBtn" title="Notifications">
+          🔔
+          <span class="notification-badge" id="notificationBadge" style="display:none">0</span>
+        </button>
+        <button class="btn" id="exportBtn" title="Export tasks">Export</button>
+        <button class="btn" id="importBtn" title="Import tasks">Import</button>
+        <button class="btn" id="syncBtn" title="Sync with cloud">Sync</button>
+        <button class="btn primary" id="addTaskBtn">+ New Task</button>
+      </div>
+    </header>
+
+    <div class="layout">
+      <!-- Sidebar -->
+      <aside class="sidebar" aria-label="sidebar">
+        <h3>Quick Filters</h3>
+        <div class="filters">
+          <div class="chip active" data-filter="all">All Tasks</div>
+          <div class="chip" data-filter="today">Due Today</div>
+          <div class="chip" data-filter="week">Due This Week</div>
+          <div class="chip" data-filter="overdue">Overdue</div>
+          <div class="chip" data-filter="recurring">Recurring</div>
+          <div style="height:8px"></div>
+          <h4 style="margin:0 0 6px 0">Categories</h4>
+          <div id="categoryFilters"></div>
+        </div>
+
+        <div class="stats">
+          <div class="stat">
+            <span class="muted">Total</span>
+            <b id="statTotal">0</b>
+          </div>
+          <div class="stat">
+            <span class="muted">Completed</span>
+            <b id="statDone">0</b>
+          </div>
+          <div class="stat">
+            <span class="muted">Overdue</span>
+            <b id="statOverdue">0</b>
+          </div>
+        </div>
+
+        <div style="margin-top:18px">
+          <h4 style="margin:0 0 8px 0">Sort & View</h4>
+          <div style="display:flex;gap:8px;margin-bottom:8px">
+            <select id="sortSelect" class="btn" style="padding:8px 10px;border-radius:10px;background:transparent;border:1px solid rgba(255,255,255,0.03)">
+              <option value="custom">Manual</option>
+              <option value="deadline">Deadline</option>
+              <option value="priority">Priority</option>
+              <option value="created">Created</option>
+              <option value="title">Title</option>
+              <option value="category">Category</option>
+            </select>
+            <button class="btn" id="clearAllBtn" title="Clear all tasks">Clear</button>
+          </div>
+
+          <h4 style="margin:0 0 8px 0">Priority Filter</h4>
+          <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px">
+            <div class="priority-filter" data-priority="all">All</div>
+            <div class="priority-filter" data-priority="Critical">Critical</div>
+            <div class="priority-filter" data-priority="High">High</div>
+            <div class="priority-filter" data-priority="Medium">Medium</div>
+            <div class="priority-filter" data-priority="Low">Low</div>
+          </div>
+
+          <h4 style="margin:0 0 8px 0">Shortcuts</h4>
+          <div class="muted" style="font-size:12px">
+            <div>Press <kbd>n</kbd> to create task</div>
+            <div>Press <kbd>c</kbd> for calendar</div>
+            <div>Drag tasks between columns</div>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Main Content -->
+      <main class="main">
+        <div class="toolbar">
+          <div class="toggles">
+            <div class="toggle active" data-view="board">Board</div>
+            <div class="toggle" data-view="list">List</div>
+            <div class="toggle" data-view="calendar">Calendar</div>
+          </div>
+
+          <div style="flex:1"></div>
+
+          <div class="muted">Progress</div>
+          <div id="progressNode" style="width:68px;height:68px"></div>
+        </div>
+
+        <!-- Board View -->
+        <section class="board view-container active" id="boardView">
+          <div class="column" data-status="Pending">
+            <h4>Pending</h4>
+            <div class="dropzone"></div>
+          </div>
+          <div class="column" data-status="In-Process">
+            <h4>In-Process</h4>
+            <div class="dropzone"></div>
+          </div>
+          <div class="column" data-status="Completed">
+            <h4>Completed</h4>
+            <div class="dropzone"></div>
+          </div>
+        </section>
+
+        <!-- List View -->
+        <section class="list-view view-container" id="listView" style="display:none">
+          <div id="listContainer"></div>
+        </section>
+
+        <!-- Calendar View -->
+        <section class="calendar-view view-container" id="calendarView" style="display:none">
+          <div class="calendar-header">
+            <button class="btn icon-btn" id="prevMonth">←</button>
+            <h3 id="calendarMonth"></h3>
+            <button class="btn icon-btn" id="nextMonth">→</button>
+          </div>
+          <div id="calendarGrid"></div>
+        </section>
+      </main>
+    </div>
+
+    <!-- Task Modal -->
+    <div class="modal-backdrop" id="modalBackdrop" role="dialog" aria-modal="true">
+      <div class="modal" role="document">
+        <h3 id="modalTitle">New Task</h3>
+        <div style="height:10px"></div>
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <div class="form-row">
+            <div>
+              <label>Title *</label>
+              <input id="taskTitle" placeholder="eg. Build login API" />
+            </div>
+            <div>
+              <label>Category</label>
+              <input id="taskCategory" placeholder="eg. Coding, Assignment" list="categoryList" />
+              <datalist id="categoryList"></datalist>
+            </div>
+          </div>
+
+          <div>
+            <label>Description</label>
+            <textarea id="taskDesc" placeholder="Write helpful notes, links or steps..."></textarea>
+          </div>
+
+          <div class="form-row">
+            <div>
+              <label>Priority</label>
+              <select id="taskPriority">
+                <option value="Low">Low</option>
+                <option value="Medium">Medium</option>
+                <option value="High">High</option>
+                <option value="Critical">Critical</option>
+              </select>
+            </div>
+            <div>
+              <label>Status</label>
+              <select id="taskStatus">
+                <option value="Pending">Pending</option>
+                <option value="In-Process">In-Process</option>
+                <option value="Completed">Completed</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div>
+              <label>Deadline</label>
+              <input id="taskDeadline" type="datetime-local" />
+            </div>
+            <div>
+              <label>Tags (comma separated)</label>
+              <input id="taskTags" placeholder="eg. ai,project,db" />
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div>
+              <label>
+                <input type="checkbox" id="taskRecurring" /> Recurring Task
+              </label>
+              <div id="recurringOptions" style="display:none;margin-top:8px">
+                <select id="recurringType" style="margin-bottom:8px">
+                  <option value="daily">Daily</option>
+                  <option value="weekly">Weekly</option>
+                  <option value="monthly">Monthly</option>
+                  <option value="yearly">Yearly</option>
+                </select>
+                <input type="number" id="recurringInterval" placeholder="Interval (e.g., 2 for every 2 days)" min="1" value="1" />
+              </div>
+            </div>
+            <div>
+              <label>Color</label>
+              <div class="color-picker">
+                <div class="color-option" data-color="default" style="background:var(--accent)"></div>
+                <div class="color-option" data-color="blue" style="background:#3b82f6"></div>
+                <div class="color-option" data-color="green" style="background:#10b981"></div>
+                <div class="color-option" data-color="red" style="background:#ef4444"></div>
+                <div class="color-option" data-color="purple" style="background:#8b5cf6"></div>
+                <div class="color-option" data-color="orange" style="background:#f59e0b"></div>
+              </div>
+            </div>
+          </div>
+
+          <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:4px">
+            <button class="btn" id="cancelModal">Cancel</button>
+            <button class="btn primary" id="saveTaskBtn">Save Task</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Notifications Panel -->
+    <div class="notifications-panel" id="notificationsPanel" style="display:none">
+      <div class="notifications-header">
+        <h3>Notifications</h3>
+        <button class="btn icon-btn" id="closeNotifications">×</button>
+      </div>
+      <div id="notificationsList"></div>
+    </div>
+
+    <!-- Theme Selector -->
+    <div class="theme-selector" id="themeSelector" style="display:none">
+      <h3>Choose Theme</h3>
+      <div class="themes-grid">
+        <div class="theme-option" data-theme="dark">Dark</div>
+        <div class="theme-option" data-theme="light">Light</div>
+        <div class="theme-option" data-theme="blue">Blue</div>
+        <div class="theme-option" data-theme="green">Green</div>
+        <div class="theme-option" data-theme="purple">Purple</div>
+        <div class="theme-option" data-theme="orange">Orange</div>
+      </div>
+    </div>
+
+    <!-- Sync Modal -->
+    <div class="modal-backdrop" id="syncModal" style="display:none">
+      <div class="modal">
+        <h3>Sync Options</h3>
+        <div style="display:flex;flex-direction:column;gap:12px;margin-top:12px">
+          <button class="btn" id="googleCalendarBtn">Sync with Google Calendar</button>
+          <button class="btn" id="remoteDbBtn">Sync with Remote Database</button>
+          <div style="margin-top:8px">
+            <label>Remote DB URL:</label>
+            <input type="text" id="remoteDbUrl" placeholder="https://your-api.com/tasks" />
+          </div>
+          <div style="display:flex;gap:8px;margin-top:8px">
+            <button class="btn" onclick="document.getElementById('syncModal').style.display='none'">Cancel</button>
+            <button class="btn primary" id="saveSyncBtn">Save Settings</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <input type="file" id="fileInput" accept="application/json" style="display:none" />
+
+  <script type="module" src="js/main.js"></script>
+  <script>
+    // Fallback error handling
+    window.addEventListener('error', (e) => {
+      if (e.filename && e.filename.includes('.js')) {
+        console.error('JavaScript error:', e.message, 'at', e.filename, 'line', e.lineno);
+      }
+    });
+  </script>
+</body>
+</html>
+

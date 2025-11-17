@@ -1,0 +1,86 @@
+/* ========= Theme: Dark (Default) ========= */
+[data-theme="dark"] {
+  --bg-1: #0b0f1a;
+  --bg-2: #071129;
+  --accent: linear-gradient(135deg,#6EE7B7 0%,#60A5FA 40%,#A78BFA 100%);
+  --muted: rgba(255,255,255,0.65);
+}
+
+/* ========= Theme: Light ========= */
+[data-theme="light"] {
+  --bg-1: #f8fafc;
+  --bg-2: #f1f5f9;
+  --accent: linear-gradient(135deg,#3b82f6 0%,#8b5cf6 100%);
+  --muted: rgba(0,0,0,0.65);
+  --glass: rgba(0,0,0,0.02);
+  --glass-border: rgba(0,0,0,0.06);
+}
+
+[data-theme="light"] body {
+  background: linear-gradient(180deg, #f8fafc, #f1f5f9);
+  color: #1e293b;
+}
+
+[data-theme="light"] .app,
+[data-theme="light"] .sidebar,
+[data-theme="light"] .main,
+[data-theme="light"] .column,
+[data-theme="light"] .task,
+[data-theme="light"] .modal,
+[data-theme="light"] .notifications-panel {
+  background: rgba(255,255,255,0.8);
+  border-color: rgba(0,0,0,0.1);
+}
+
+/* ========= Theme: Blue ========= */
+[data-theme="blue"] {
+  --bg-1: #0f172a;
+  --bg-2: #1e293b;
+  --accent: linear-gradient(135deg,#60A5FA 0%,#3b82f6 100%);
+  --muted: rgba(255,255,255,0.7);
+}
+
+[data-theme="blue"] body {
+  background: radial-gradient(1200px 600px at 10% 10%, rgba(59,130,246,0.15), transparent),
+              linear-gradient(180deg, #0f172a, #1e293b);
+}
+
+/* ========= Theme: Green ========= */
+[data-theme="green"] {
+  --bg-1: #0a1f0a;
+  --bg-2: #0f2e0f;
+  --accent: linear-gradient(135deg,#10b981 0%,#059669 100%);
+  --muted: rgba(255,255,255,0.7);
+}
+
+[data-theme="green"] body {
+  background: radial-gradient(1200px 600px at 10% 10%, rgba(16,185,129,0.12), transparent),
+              linear-gradient(180deg, #0a1f0a, #0f2e0f);
+}
+
+/* ========= Theme: Purple ========= */
+[data-theme="purple"] {
+  --bg-1: #1a0a2e;
+  --bg-2: #2d0a4e;
+  --accent: linear-gradient(135deg,#a78bfa 0%,#8b5cf6 100%);
+  --muted: rgba(255,255,255,0.7);
+}
+
+[data-theme="purple"] body {
+  background: radial-gradient(1200px 600px at 10% 10%, rgba(139,92,246,0.15), transparent),
+              linear-gradient(180deg, #1a0a2e, #2d0a4e);
+}
+
+/* ========= Theme: Orange ========= */
+[data-theme="orange"] {
+  --bg-1: #1f0f0a;
+  --bg-2: #2e1a0f;
+  --accent: linear-gradient(135deg,#f59e0b 0%,#d97706 100%);
+  --muted: rgba(255,255,255,0.7);
+}
+
+[data-theme="orange"] body {
+  background: radial-gradient(1200px 600px at 10% 10%, rgba(245,158,11,0.12), transparent),
+              linear-gradient(180deg, #1f0f0a, #2e1a0f);
+}
+
