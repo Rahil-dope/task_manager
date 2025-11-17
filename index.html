@@ -296,6 +296,24 @@
       }
     });
   </script>
-</body>
-</html>
+  
+  </div> <input type="file" id="fileInput" accept="application/json" style="display:none" />
 
+  <script type="module" src="js/main.js"></script>
+  <script>
+    // Fallback error handling
+    window.addEventListener('error', (e) => {
+      if (e.filename && e.filename.includes('.js')) {
+        console.error('JavaScript error:', e.message, 'at', e.filename, 'line', e.lineno);
+      }
+    });
+  </script>
+
+  <footer class="app-footer">
+    <p>
+      Created by <strong>Rahil hussain</strong> &bull; 
+      <a href="https://www.linkedin.com/in/rahil-hussain-a54348291" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+    </p>
+  </footer>
+  </body>
+</html>

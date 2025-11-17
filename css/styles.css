@@ -717,3 +717,26 @@ kbd {
   font-family: monospace;
 }
 
+/* Footer Styles */
+.app-footer {
+  text-align: center;
+  padding: 24px 16px;
+  border-top: 1px solid var(--border-color, #333); /* Uses your app's existing variable or a fallback */
+  color: var(--text-muted, #888);
+  font-size: 14px;
+  margin-top: 20px;
+}
+
+.app-footer p {
+  margin: 0;
+}
+
+.app-footer a {
+  color: var(--accent, #3b82f6); /* Uses your app's accent color */
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.app-footer a:hover {
+  text-decoration: underline;
+}
